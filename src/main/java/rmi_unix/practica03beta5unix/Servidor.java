@@ -21,24 +21,26 @@ public class Servidor {
 
     public static void main(String[] args) {
         final int PUERTO = 5001;
-        byte[] buffer = {};
+        byte[] buffer = new byte[1024];
 
         try {
             System.out.println("Iniciando el servidor...");
             DatagramSocket socketUDP = new DatagramSocket(PUERTO);
 
             while (true) {
-                buffer = new byte[1024];
                 DatagramPacket peticion = new DatagramPacket(buffer, buffer.length);
                 socketUDP.receive(peticion);
+                buffer = new byte[1024];
                 String mensaje = new String(peticion.getData(), 0, peticion.getLength());
 
                 if (mensaje.isEmpty()) {
                     socketUDP.close();
                     break;
                 } else {
-                    System.out.println("soy el Server y recibo la cadena: " + mensaje);
-
+                    buffer=null;
+                    buffer = new byte[1024];
+                    mensaje = "soy el Server y recibo la cadena: ".concat(mensaje);
+                    System.out.println(mensaje);
                     /*lo que el servidor le enviara al cliente*/
                     int puertoCliente = peticion.getPort();
                     InetAddress direccion = peticion.getAddress();

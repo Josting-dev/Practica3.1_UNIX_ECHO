@@ -42,7 +42,7 @@ public class Cliente {
                     
                     if(!"".equals(cadena)){
                         socketUDP.send(pregunta);
-                    
+                        buffer = new byte[1024];
                         DatagramPacket peticion = new DatagramPacket(buffer, buffer.length);
 
                         socketUDP.receive(peticion);
